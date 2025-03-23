@@ -2,7 +2,7 @@ import "server-only";
 import { getCookie } from "hono/cookie";
 import {createMiddleware} from"hono/factory";
 import {Client,Account,Databases,Models,Storage, type Account as AcccountType, type Databases as DatabasesType,type Storage as StroageType, type Users as UsersType} from "node-appwrite";
-import { AUTH_COOKIE } from "@/featured/auth/constants";
+import { AUTH_COOKIE } from "@/features/auth/constants";
 
 type AdditionalContext={
     Variables:{
