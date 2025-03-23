@@ -64,3 +64,25 @@ export const getWorkspace = async({workspaceId}:getWorkspaceProps)=>{
     }
 
 }
+
+interface getWorkspaceInfoProps{
+    workspaceId:string
+}
+
+export const getWorkspaceInfo = async({workspaceId}:getWorkspaceInfoProps)=>{
+    try{
+    const {databases}= await createSessionClinet();
+  
+
+    const workspace = await databases.getDocument<Workspace>(
+        DATABASE_ID,WORKSPACE_ID,workspaceId
+    );
+
+    return {
+        name:workspace.name
+    };
+    }catch{
+        return null;
+    }
+
+}
