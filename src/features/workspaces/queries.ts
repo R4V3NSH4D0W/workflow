@@ -44,14 +44,14 @@ interface getWorkspaceProps{
 }
 
 export const getWorkspace = async({workspaceId}:getWorkspaceProps)=>{
-    try{
+
     const {account,databases}= await createSessionClinet();
   
     const user = await account.get();
 
     const member = await getMember({databases, userId:user.$id,workspaceId});
     if(!member){
-        return null;
+       throw new Error("unAuthroized");
     }
 
     const workspace = await databases.getDocument<Workspace>(
@@ -59,9 +59,6 @@ export const getWorkspace = async({workspaceId}:getWorkspaceProps)=>{
     );
 
     return workspace;
-    }catch{
-        return null;
-    }
 
 }
 
@@ -70,7 +67,6 @@ interface getWorkspaceInfoProps{
 }
 
 export const getWorkspaceInfo = async({workspaceId}:getWorkspaceInfoProps)=>{
-    try{
     const {databases}= await createSessionClinet();
   
 
@@ -81,8 +77,6 @@ export const getWorkspaceInfo = async({workspaceId}:getWorkspaceInfoProps)=>{
     return {
         name:workspace.name
     };
-    }catch{
-        return null;
-    }
+ 
 
 }
