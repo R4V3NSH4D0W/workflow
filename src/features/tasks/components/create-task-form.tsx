@@ -15,7 +15,6 @@ import {
 import { DottedSeprator } from "@/components/dotted-sperator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { createTaskSchema } from "../schemas";
 import { useWorkspaceIds } from "@/features/workspaces/hooks/use-workspace-id";
@@ -42,12 +41,11 @@ export const CreateTaskForm = ({
   projectOptions,
   memberOptions,
 }: CreateTaskFormProps) => {
-  const router = useRouter();
   const workspaceId = useWorkspaceIds();
   const { mutate, isPending } = useCreateTask();
 
   const form = useForm<z.infer<typeof createTaskSchema>>({
-    resolver: zodResolver(createTaskSchema.omit({ workspaceId: true })),
+    resolver: zodResolver(createTaskSchema),
     defaultValues: {
       workspaceId,
     },
@@ -57,13 +55,9 @@ export const CreateTaskForm = ({
     mutate(
       { json: { ...values, workspaceId } },
       {
-        onSuccess: ({ data }) => {
+        onSuccess: () => {
           form.reset();
           onCancel?.();
-          //   router.push(`/workspaces/${workspaceId}/projects/${data.$id}`);
-          //TODO REDIrect to project screen
-
-          //REDIRECT To new WORK Space
         },
       }
     );

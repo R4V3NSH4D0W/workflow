@@ -19,6 +19,7 @@ import {
 import { useDeleteMember } from "@/features/members/api/use-delete-member";
 import { useUpdatemember } from "@/features/members/api/use-update-member";
 import { MemberRole } from "@/features/members/types";
+import { snakeCaseToTitleCase } from "@/lib/utils";
 
 export const MemberLists = () => {
   const workspaceId = useWorkspaceIds();
@@ -80,7 +81,9 @@ export const MemberLists = () => {
                 name={member.name}
               />
               <div className=" flex flex-col">
-                <p className=" text-sm font-medium">{member.name}</p>
+                <p className=" text-sm font-medium">
+                  {member.name} ({snakeCaseToTitleCase(member.role)})
+                </p>
                 <p className=" text-xs text-muted-foreground">{member.email}</p>
               </div>
               <DropdownMenu>

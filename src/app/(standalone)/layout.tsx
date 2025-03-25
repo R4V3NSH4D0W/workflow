@@ -14,7 +14,7 @@ function StandAloneLayout({ children }: StandAloneLayoutProps) {
         <nav className=" flex justify-between items-center h-[73px]">
           <Link href="/">
             <div className=" flex flex-row items-center">
-              <LayoutGrid className="h-6 w-6 text-blue-500" />
+              <LayoutGrid className="h-6 w-6 text-blue-500 mr-2" />
               <span className="text-2xl font-bold">Workflow</span>
             </div>
           </Link>

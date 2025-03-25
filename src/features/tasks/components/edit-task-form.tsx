@@ -15,10 +15,8 @@ import {
 import { DottedSeprator } from "@/components/dotted-sperator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { createTaskSchema } from "../schemas";
-import { useWorkspaceIds } from "@/features/workspaces/hooks/use-workspace-id";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
   Select,
@@ -38,39 +36,40 @@ interface EditTaskFormProps {
   memberOptions: { id: string; name: string }[];
   initalValues: Task;
 }
+
+export const editTaskSchema = createTaskSchema.omit({
+  workspaceId: true,
+  description: true,
+});
+
 export const EditTaskForm = ({
   onCancel,
   projectOptions,
   memberOptions,
   initalValues,
 }: EditTaskFormProps) => {
-  const router = useRouter();
-  const workspaceId = useWorkspaceIds();
   const { mutate, isPending } = useUpdateTask();
 
-  const form = useForm<z.infer<typeof createTaskSchema>>({
-    resolver: zodResolver(
-      createTaskSchema.omit({ workspaceId: true, description: true })
-    ),
+  const form = useForm<z.infer<typeof editTaskSchema>>({
+    resolver: zodResolver(editTaskSchema),
     defaultValues: {
-      ...initalValues,
+      name: initalValues.name,
+      status: initalValues.status,
+      assigneeId: initalValues.assigneeId,
       dueDate: initalValues.dueDate
         ? new Date(initalValues.dueDate)
         : undefined,
+      projectId: initalValues.projectId,
     },
   });
 
-  const onSubmit = (values: z.infer<typeof createTaskSchema>) => {
+  const onSubmit = (values: z.infer<typeof editTaskSchema>) => {
     mutate(
       { json: values, param: { taskId: initalValues.$id } },
       {
         onSuccess: () => {
           form.reset();
           onCancel?.();
-          //   router.push(`/workspaces/${workspaceId}/projects/${data.$id}`);
-          //TODO REDIrect to project screen
-
-          //REDIRECT To new WORK Space
         },
       }
     );

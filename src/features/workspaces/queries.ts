@@ -1,8 +1,6 @@
 "use server";
 import { Query } from "node-appwrite";
 import { DATABASE_ID, MEMBERS_ID, WORKSPACE_ID } from "@/config";
-import { getMember } from "../members/utils";
-import { Workspace } from "./types";
 import { createSessionClinet } from "@/lib/app-write";
 
 export const getWorkspaces = async()=>{
@@ -39,44 +37,4 @@ export const getWorkspaces = async()=>{
 
 }
 
-interface getWorkspaceProps{
-    workspaceId:string
-}
 
-export const getWorkspace = async({workspaceId}:getWorkspaceProps)=>{
-
-    const {account,databases}= await createSessionClinet();
-  
-    const user = await account.get();
-
-    const member = await getMember({databases, userId:user.$id,workspaceId});
-    if(!member){
-       throw new Error("unAuthroized");
-    }
-
-    const workspace = await databases.getDocument<Workspace>(
-        DATABASE_ID,WORKSPACE_ID,workspaceId
-    );
-
-    return workspace;
-
-}
-
-interface getWorkspaceInfoProps{
-    workspaceId:string
-}
-
-export const getWorkspaceInfo = async({workspaceId}:getWorkspaceInfoProps)=>{
-    const {databases}= await createSessionClinet();
-  
-
-    const workspace = await databases.getDocument<Workspace>(
-        DATABASE_ID,WORKSPACE_ID,workspaceId
-    );
-
-    return {
-        name:workspace.name
-    };
- 
-
-}

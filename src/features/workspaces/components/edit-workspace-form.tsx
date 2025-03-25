@@ -98,14 +98,7 @@ export const EditWorkSpaceForm = ({
       ...values,
       image: values.image instanceof File ? values.image : "",
     };
-    mutate(
-      { form: finalValues, param: { workspaceId: initalValues.$id } },
-      {
-        onSuccess: () => {
-          form.reset();
-        },
-      }
-    );
+    mutate({ form: finalValues, param: { workspaceId: initalValues.$id } });
   };
 
   const handelImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -150,7 +143,7 @@ export const EditWorkSpaceForm = ({
         <div className="px-7">
           <DottedSeprator />
         </div>
-        <CardContent className="p-7">
+        <CardContent className="px-7">
           <Form {...form}>
             <div className="flex flex-col gap-y-4">
               <form

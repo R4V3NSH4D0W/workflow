@@ -4,12 +4,10 @@ import { InferRequestType, InferResponseType } from "hono";
 import { clinet } from "@/lib/rpc";
 
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 type ResponseType = InferResponseType<typeof clinet.api.workspaces[":workspaceId"]["$patch"],200>;
 type RequestType = InferRequestType<typeof clinet.api.workspaces[":workspaceId"]["$patch"]>;
 
 export const useUpdateWorkspace = () => {
-  const router= useRouter();
   const queryClinet = useQueryClient();
 
   const mutation = useMutation<ResponseType, Error, RequestType>({
@@ -22,7 +20,6 @@ export const useUpdateWorkspace = () => {
     },
     onSuccess: ({data}) => {
       toast.success("Workspace Updated");
-      router.refresh();
       queryClinet.invalidateQueries({ queryKey: ["workspaces"] });
       queryClinet.invalidateQueries({ queryKey: ["workspace",data.$id] });
     },
