@@ -295,5 +295,69 @@ const app = new Hono()
         })
     }
 )
+.post('/bulk-update',
+    sessionMiddleWare,
+    zValidator("json",
+        z.object({
+            tasks:z.array(
+                z.object({
+                $id:z.string(),
+                status:z.nativeEnum(TaskStatus),
+                position:z.number().int().positive().min(1000).max(1000000)
+                })
+            )
+        })
+    ),
+
+    async(c)=>{
+        const databases= c.get("databases");
+        const user = c.get("user");
+        const {tasks}= c.req.valid("json");
+
+        const taskToUpdate= await databases.listDocuments<Task>(
+            DATABASE_ID,
+            TASK_ID,
+            [Query.contains("$id",tasks.map((task)=>task.$id))]
+        );
+
+        const workspaceIds = new Set(taskToUpdate.documents.map((task)=>task.workspaceId));
+        if(workspaceIds.size !== 1){
+            return c.json({
+                error:"All task must be of same workspace"
+            })
+        }
+
+        const workspaceId= workspaceIds.values().next().value;
+
+        if (!workspaceId) {
+            return c.json({ error: "workspaceId is required" }, 400);
+        }
+        const member = await getMember({
+            databases,
+            workspaceId,
+            userId: user.$id
+        });
+
+        if(!member){
+            return c.json({error:"unauthorized"},401);
+        }
+
+        const updateTask = await Promise.all(
+            tasks.map(async(task)=>{
+                const {$id,status,position}= task;
+                return databases.updateDocument<Task>(
+                    DATABASE_ID,
+                    TASK_ID,
+                    $id,
+                    {status,position}
+                )
+            })
+        );
+
+        return c.json({data:updateTask})
+
+
+    }
+)
 
 export default app;

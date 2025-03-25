@@ -1,5 +1,5 @@
 import { UserButton } from "@/features/auth/components/user-button";
-import Image from "next/image";
+import { LayoutGrid } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -13,7 +13,10 @@ function StandAloneLayout({ children }: StandAloneLayoutProps) {
       <div className=" mx-auto max-w-screen-2xl p-4">
         <nav className=" flex justify-between items-center h-[73px]">
           <Link href="/">
-            <Image src="/logo.svg" alt="logo" height={56} width={152} />
+            <div className=" flex flex-row items-center">
+              <LayoutGrid className="h-6 w-6 text-blue-500" />
+              <span className="text-2xl font-bold">Workflow</span>
+            </div>
           </Link>
           <UserButton />
         </nav>

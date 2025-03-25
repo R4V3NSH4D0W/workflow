@@ -4,12 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  DeleteIcon,
-  ExternalLinkIcon,
-  LinkIcon,
-  PencilIcon,
-} from "lucide-react";
+import { DeleteIcon, ExternalLinkIcon, PencilIcon } from "lucide-react";
 import React from "react";
 import { useDeleteTask } from "../api/use-delete-task";
 import { useConfirm } from "@/hooks/use-confirm";
@@ -49,7 +44,7 @@ function TaskAction({ id, projectId, children }: TaskActionProps) {
   };
 
   const onOpenTask = () => {
-    router.push(`/workspaces/${workspaceId}/task/${id}`);
+    router.push(`/workspaces/${workspaceId}/tasks/${id}`);
   };
 
   const onOpenProject = () => {

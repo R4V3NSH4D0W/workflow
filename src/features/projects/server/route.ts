@@ -160,5 +160,27 @@ async(c)=>{
         }})
     }
 )
+.get("/:projectId",sessionMiddleWare, async(c)=>{
+    const databases = c.get("databases");
+    const user= c.get("user");
+    const {projectId}= c.req.param();
+
+    const project = await databases.getDocument<Project>(
+        DATABASE_ID,
+        PROJECT_ID,
+        projectId
+    );
+    const member=  await getMember({
+        databases,workspaceId:project.workspaceId,userId:user.$id
+    });
+
+    if(!member){
+        return c.json({
+            error:"unAuthorized"
+        },401)
+    }
+
+    return c.json({data:project});
+})
 
 export default app;

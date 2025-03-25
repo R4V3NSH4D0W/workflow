@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 interface WorkspaceAvatarProps {
   name: string;
-  className: string;
+  className?: string;
   fallbackClassName?: string;
 }
 

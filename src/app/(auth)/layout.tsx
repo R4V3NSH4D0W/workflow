@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { LayoutGrid } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -15,7 +15,10 @@ function AuthLayout({ children }: AuthLayoutProps) {
     <div className=" bg-neutral-100 min-h-screen">
       <div className=" mx-auto max-w-screen-2xl p-4">
         <nav className=" flex justify-between items-center">
-          <Image src="/logo.svg" height={56} width={152} alt="logo" />
+          <div className=" flex flex-row items-center">
+            <LayoutGrid className="h-6 w-6 text-blue-500" />
+            <span className="text-2xl font-bold">Workflow</span>
+          </div>
 
           <Button asChild variant="secondary">
             <Link href={pathname === "/sign-in" ? "/sign-up" : "/sign-in"}>

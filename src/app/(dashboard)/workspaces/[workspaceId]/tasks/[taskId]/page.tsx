@@ -1,13 +1,12 @@
 import { getCurrent } from "@/features/auth/queries";
 import { redirect } from "next/navigation";
 import React from "react";
-import { ProjectIdSettingClient } from "./client";
+import { TaskIdClient } from "./clinet";
 
-async function ProjectIdSettingPage() {
+async function TaskIdPage() {
   const user = await getCurrent();
   if (!user) redirect("/sign-in");
-
-  return <ProjectIdSettingClient />;
+  return <TaskIdClient />;
 }
 
-export default ProjectIdSettingPage;
+export default TaskIdPage;
