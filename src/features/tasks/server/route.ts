@@ -52,23 +52,18 @@ const app = new Hono()
         ];
 
         if(projectId){
-            console.log("projectID",projectId);
             query.push(Query.equal("projectId",projectId))
         }
         if(status){
-            console.log("stauts",status);
             query.push(Query.equal("status",status))
         }
         if(assigneeId){
-            console.log("assigneId",assigneeId);
             query.push(Query.equal("assigneeId",assigneeId))
         }
         if(dueDate){
-            console.log("dueDate",dueDate);
             query.push(Query.equal("dueDate",dueDate))
         }
         if(search){
-            console.log("search",search);
             query.push(Query.search("name",search))
         }
 

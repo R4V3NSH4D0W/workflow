@@ -22,7 +22,6 @@ function AnalyticsCard({
 
   const Icon = varient === "up" ? FaCaretUp : FaCaretDown;
 
-  console.log("IncreaseValue", increaseValue);
   return (
     <Card className="shadow-none border-none w-full">
       <CardHeader>

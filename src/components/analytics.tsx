@@ -5,7 +5,6 @@ import AnalyticsCard from "./analytics-card";
 import { DottedSeprator } from "./dotted-sperator";
 
 function Analytics({ data }: ProjectAnalyticsResponseType) {
-  console.log("data", data.tasks);
   return (
     <ScrollArea className=" border rounded-lg w-full whitespace-nowrap shrink-0">
       <div className=" flex flex-row w-full">

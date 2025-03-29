@@ -14,7 +14,6 @@ export const CreateTaskFormWrapper = ({
   onCancel,
 }: CreateTaskFormWrapperProps) => {
   const workspaceId = useWorkspaceIds();
-  console.log("WorkspaceId", workspaceId);
   const { data: projects, isLoading: isLoadingProject } = useGetProjects({
     workspaceId,
   });
