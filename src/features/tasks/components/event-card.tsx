@@ -1,17 +1,19 @@
 import { Project } from "@/features/projects/types";
-import { TaskStatus } from "../types";
+import { PriorityStatus, TaskStatus } from "../types";
 import { cn } from "@/lib/utils";
 import { MemberAvatar } from "@/features/members/components/member-avatar";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { useWorkspaceIds } from "@/features/workspaces/hooks/use-workspace-id";
 import { useRouter } from "next/navigation";
 import { Member } from "@/features/members/types";
+import { TaskPriority } from "./task-priority";
 
 interface EventCardProps {
   title: string;
   assignee: Member;
   project: Project;
   status: TaskStatus;
+  priority: PriorityStatus | undefined;
   id: string;
 }
 
@@ -29,6 +31,7 @@ export const EventCard = ({
   project,
   status,
   id,
+  priority,
 }: EventCardProps) => {
   const workspaceId = useWorkspaceIds();
   const router = useRouter();
@@ -50,6 +53,8 @@ export const EventCard = ({
           <MemberAvatar name={assignee?.name} />
           <div className=" size-1 rounded-full bg-neutral-300" />
           <ProjectAvatar name={project?.name} image={project?.imageUrl} />
+          <div className=" size-1 rounded-full bg-neutral-300" />
+          <TaskPriority value={priority} className=" text-xs" />
         </div>
       </div>
     </div>

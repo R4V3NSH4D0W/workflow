@@ -8,6 +8,11 @@ export enum TaskStatus{
     DONE="DONE",
 }
 
+export enum PriorityStatus{
+    HIGH="HIGH",
+    LOW="LOW",
+}
+
 export type Task= Models.Document & {
     name:string;
     status:TaskStatus;
@@ -17,4 +22,5 @@ export type Task= Models.Document & {
     dueDate:string;
     workspaceId:string;
     description?:string;
+    priority?:PriorityStatus;
 }

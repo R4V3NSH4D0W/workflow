@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MemberAvatar } from "@/features/members/components/member-avatar";
-import { Task, TaskStatus } from "../types";
+import { PriorityStatus, Task, TaskStatus } from "../types";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { useUpdateTask } from "../api/use-update-task";
 
@@ -60,6 +60,7 @@ export const EditTaskForm = ({
         ? new Date(initalValues.dueDate)
         : undefined,
       projectId: initalValues.projectId,
+      priority: initalValues.priority,
     },
   });
 
@@ -145,6 +146,34 @@ export const EditTaskForm = ({
                             </div>
                           </SelectItem>
                         ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="priority"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Priority Status </FormLabel>
+                    <Select
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <FormControl>
+                        <SelectTrigger className=" w-full">
+                          <SelectValue placeholder="Select Priority" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <FormMessage />
+                      <SelectContent>
+                        <SelectItem value={PriorityStatus.HIGH}>
+                          High
+                        </SelectItem>
+                        <SelectItem value={PriorityStatus.LOW}>Low</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

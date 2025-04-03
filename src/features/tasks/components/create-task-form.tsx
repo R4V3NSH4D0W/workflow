@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MemberAvatar } from "@/features/members/components/member-avatar";
-import { TaskStatus } from "../types";
+import { PriorityStatus, TaskStatus } from "../types";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 
 interface CreateTaskFormProps {
@@ -133,6 +133,34 @@ export const CreateTaskForm = ({
                             </div>
                           </SelectItem>
                         ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="priority"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Piority Status </FormLabel>
+                    <Select
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <FormControl>
+                        <SelectTrigger className=" w-full">
+                          <SelectValue placeholder="Select Piority" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <FormMessage />
+                      <SelectContent>
+                        <SelectItem value={PriorityStatus.HIGH}>
+                          High
+                        </SelectItem>
+                        <SelectItem value={PriorityStatus.LOW}>Low</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

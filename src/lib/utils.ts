@@ -1,3 +1,4 @@
+import { PriorityStatus } from "@/features/tasks/types";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -17,3 +18,11 @@ export function generateInviteCode(length:number){
 export function snakeCaseToTitleCase(str:string){
   return str.toLowerCase().replace(/_/g," ").replace(/\b\w/g,(char)=>char.toUpperCase());
 }
+
+export const GetPriority = (value: PriorityStatus | undefined) => {
+  if (value === PriorityStatus.HIGH) {
+    return "High";
+  } else if (value === PriorityStatus.LOW) {
+    return "Low";
+  }
+};

@@ -9,6 +9,7 @@ import { TaskDate } from "./task-date";
 import { Badge } from "@/components/ui/badge";
 import { snakeCaseToTitleCase } from "@/lib/utils";
 import TaskAction from "./task-action";
+import { TaskPriority } from "./task-priority";
 
 export const colums: ColumnDef<Task>[] = [
   {
@@ -82,6 +83,29 @@ export const colums: ColumnDef<Task>[] = [
             className=" size-6"
           />
           <p className=" line-clamp-1">{assignee.name}</p>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "priority",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          priority
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const status = row.original.priority;
+
+      return (
+        <div className=" flex items-center gap-x-2 pl-4">
+          <TaskPriority value={status} />
         </div>
       );
     },

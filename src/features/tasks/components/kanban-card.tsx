@@ -5,6 +5,7 @@ import { DottedSeprator } from "@/components/dotted-sperator";
 import { MemberAvatar } from "@/features/members/components/member-avatar";
 import { TaskDate } from "./task-date";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
+import { TaskPriority } from "./task-priority";
 
 interface KanbanCardProps {
   task: Task;
@@ -26,6 +27,7 @@ export const KanbanCard = ({ task }: KanbanCardProps) => {
         />
         <div className=" size-1 rounded-full bg-neutral-300" />
         <TaskDate value={task.dueDate} className=" text-xs" />
+        <TaskPriority value={task?.priority} className=" text-xs" />
       </div>
       <div className=" flex items-center gap-x-1.5">
         <ProjectAvatar

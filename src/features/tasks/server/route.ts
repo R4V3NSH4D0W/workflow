@@ -21,6 +21,7 @@ const app = new Hono()
             status:z.nativeEnum(TaskStatus).nullish(),
             search:z.string().nullish(),
             dueDate:z.string().nullish(),
+            priority:z.string().nullish(),
         })
     ),
     async(c)=>{
@@ -34,7 +35,8 @@ const app = new Hono()
             assigneeId,
             search,
             status,
-            dueDate
+            dueDate,
+            priority,
         }=c.req.valid("query");
 
         const member = await getMember({
@@ -62,6 +64,9 @@ const app = new Hono()
         }
         if(dueDate){
             query.push(Query.equal("dueDate",dueDate))
+        }
+        if(priority){
+            query.push(Query.equal("priority",priority));
         }
         if(search){
             query.push(Query.search("name",search))
@@ -125,7 +130,7 @@ const app = new Hono()
     async(c)=>{
         const user = c.get("user");
         const databases= c.get("databases");
-        const {name,status,workspaceId,projectId,dueDate,assigneeId}=c.req.valid("json");
+        const {name,status,workspaceId,projectId,dueDate,assigneeId,priority}=c.req.valid("json");
 
         const member = await getMember({
             databases,
@@ -162,6 +167,7 @@ const app = new Hono()
                 dueDate,
                 assigneeId,
                 position:newPosition,
+                priority
                 // description,
             }
         );
@@ -209,7 +215,7 @@ const app = new Hono()
         const user = c.get("user");
         const databases= c.get("databases");
         const {taskId}=c.req.param();
-        const {name,status,description,projectId,dueDate,assigneeId}=c.req.valid("json");
+        const {name,status,description,projectId,dueDate,assigneeId,priority}=c.req.valid("json");
 
         const existingTask = await databases.getDocument<Task>(
             DATABASE_ID,
@@ -238,6 +244,7 @@ const app = new Hono()
                 dueDate,
                 assigneeId,
                 description,
+                priority,
             }
         );
         return c.json({data:task});
