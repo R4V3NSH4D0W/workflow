@@ -13,6 +13,7 @@ import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { useCreateProjectModel } from "@/features/projects/hooks/use-create-project-model";
 import { Project } from "@/features/projects/types";
 import { useGetTasks } from "@/features/tasks/api/use-get-tasks";
+import { TaskPriority } from "@/features/tasks/components/task-priority";
 import { useCreateTaskModel } from "@/features/tasks/hooks/user-create-task-modal";
 import { Task } from "@/features/tasks/types";
 import { useWorkspaceAnalytics } from "@/features/workspaces/api/use-get-workspace-analytics";
@@ -80,14 +81,20 @@ export const TaskList = ({ data, total }: TaskListProps) => {
         </div>
         <DottedSeprator className=" my-4" />
         <ul className=" flex flex-col gap-y-4">
-          {data.map((task) => (
+          {data.slice(0, 3).map((task) => (
             <li key={task.$id}>
               <Link href={`/workspaces/${workspaceId}/tasks/${task.$id}`}>
                 <Card className="shadow-none rounded-lg hover:opacity-75 transition">
                   <CardContent className=" p-4 ">
                     <p className=" text-lg truncate font-medium">{task.name}</p>
                     <div className=" flex items-center gap-x-2">
-                      <p>{task.project?.name}</p>
+                      <div className=" flex flex-row items-center gap-2">
+                        <ProjectAvatar
+                          name={task.project?.name}
+                          image={task.project?.imageUrl}
+                        />
+                        <p>{task.project?.name}</p>
+                      </div>
                       <div className=" size-1 rounded-full bg-neutral-300" />
                       <div className=" text-sm  text-muted-foreground flex items-center">
                         <CalendarIcon className=" size-3 mr-1" />
@@ -95,6 +102,8 @@ export const TaskList = ({ data, total }: TaskListProps) => {
                           {formatDistanceToNow(new Date(task.dueDate))}
                         </span>
                       </div>
+                      <div className=" size-1 rounded-full bg-neutral-300" />
+                      <TaskPriority value={task.priority} className="text-xs" />
                     </div>
                   </CardContent>
                 </Card>

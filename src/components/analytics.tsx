@@ -6,9 +6,9 @@ import { DottedSeprator } from "./dotted-sperator";
 
 function Analytics({ data }: ProjectAnalyticsResponseType) {
   return (
-    <ScrollArea className=" border rounded-lg w-full whitespace-nowrap shrink-0">
-      <div className=" flex flex-row w-full">
-        <div className=" flex items-center flex-1">
+    <ScrollArea className="border rounded-lg w-full">
+      <div className="flex w-full overflow-x-auto md:overflow-hidden">
+        <div className="flex items-center flex-1 min-w-[200px]">
           <AnalyticsCard
             title="Total Task"
             value={data.tasks.count}
@@ -17,7 +17,7 @@ function Analytics({ data }: ProjectAnalyticsResponseType) {
           />
           <DottedSeprator direction="vertical" />
         </div>
-        <div className=" flex items-center flex-1">
+        <div className="flex items-center flex-1 min-w-[200px]">
           <AnalyticsCard
             title="Assigned Task"
             value={data.assignedTasks.count}
@@ -26,25 +26,25 @@ function Analytics({ data }: ProjectAnalyticsResponseType) {
           />
           <DottedSeprator direction="vertical" />
         </div>
-        <div className=" flex items-center flex-1">
+        <div className="flex items-center flex-1 min-w-[200px]">
           <AnalyticsCard
-            title="Compleated Task"
+            title="Completed Task"
             value={data.completedTasks.count}
             varient={data.completedTasks.difference > 0 ? "up" : "down"}
             increaseValue={data.completedTasks.difference}
           />
           <DottedSeprator direction="vertical" />
         </div>
-        <div className=" flex items-center flex-1">
+        <div className="flex items-center flex-1 min-w-[200px]">
           <AnalyticsCard
-            title="Over Due Task"
+            title="Overdue Task"
             value={data.overdueTasks.count}
             varient={data.overdueTasks.difference > 0 ? "up" : "down"}
             increaseValue={data.overdueTasks.difference}
           />
           <DottedSeprator direction="vertical" />
         </div>
-        <div className=" flex items-center flex-1">
+        <div className="flex items-center flex-1 min-w-[200px]">
           <AnalyticsCard
             title="Incomplete Task"
             value={data.incompleteTasks.count}

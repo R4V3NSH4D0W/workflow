@@ -105,7 +105,7 @@ export const colums: ColumnDef<Task>[] = [
 
       return (
         <div className=" flex items-center gap-x-2 pl-4">
-          <TaskPriority value={status} />
+          <TaskPriority value={status} className=" text-xs" />
         </div>
       );
     },

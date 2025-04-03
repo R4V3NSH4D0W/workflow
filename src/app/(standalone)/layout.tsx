@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import { UserButton } from "@/features/auth/components/user-button";
 import { LayoutGrid } from "lucide-react";
 import Link from "next/link";
@@ -23,6 +24,7 @@ function StandAloneLayout({ children }: StandAloneLayoutProps) {
         <div className=" flex flex-col items-center justify-center py-4">
           {children}
         </div>
+        <Footer />
       </div>
     </main>
   );

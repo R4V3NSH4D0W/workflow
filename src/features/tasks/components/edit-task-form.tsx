@@ -78,13 +78,13 @@ export const EditTaskForm = ({
 
   return (
     <Card className="h-full w-full border-none shadow-none">
-      <CardHeader className="flex p-7">
+      <CardHeader className="flex px-7">
         <CardTitle className="text-xl font-bold">Edit a task</CardTitle>
       </CardHeader>
       <div className="px-7">
         <DottedSeprator />
       </div>
-      <CardContent className="p-7">
+      <CardContent className="px-7">
         <Form {...form}>
           <div className="flex flex-col gap-y-4">
             <form
@@ -252,7 +252,7 @@ export const EditTaskForm = ({
                 )}
               />
 
-              <DottedSeprator className="py-7" />
+              <DottedSeprator className="py-2" />
               <div className="flex items-center justify-between">
                 <Button
                   type="button"
