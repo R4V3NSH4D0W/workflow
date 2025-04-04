@@ -30,6 +30,7 @@ import {
 import { MemberAvatar } from "@/features/members/components/member-avatar";
 import { PriorityStatus, TaskStatus } from "../types";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
+import { useProjectId } from "@/features/projects/hooks/use-project-id";
 
 interface CreateTaskFormProps {
   onCancel?: () => void;
@@ -43,11 +44,15 @@ export const CreateTaskForm = ({
 }: CreateTaskFormProps) => {
   const workspaceId = useWorkspaceIds();
   const { mutate, isPending } = useCreateTask();
-
+  const projectId = useProjectId();
+  const selectedProject = projectOptions.find(
+    (project) => project.id === projectId
+  );
   const form = useForm<z.infer<typeof createTaskSchema>>({
     resolver: zodResolver(createTaskSchema),
     defaultValues: {
       workspaceId,
+      projectId: selectedProject?.id ?? undefined,
     },
   });
 
@@ -210,7 +215,7 @@ export const CreateTaskForm = ({
                   <FormItem>
                     <FormLabel>Select Project </FormLabel>
                     <Select
-                      defaultValue={field.value}
+                      defaultValue={selectedProject?.id}
                       onValueChange={field.onChange}
                     >
                       <FormControl>
