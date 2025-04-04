@@ -28,6 +28,11 @@ import { useConfirm } from "@/hooks/use-confirm";
 import { useDeleteWorkspaces } from "../api/use-delete-workspaces";
 import { toast } from "sonner";
 import { useResetInviteCode } from "../api/use-reset-invitecode";
+import { useGetMembers } from "@/features/members/api/use-get-members";
+import { useWorkspaceIds } from "../hooks/use-workspace-id";
+import { useCurrent } from "@/features/auth/api/use-current";
+import { MemberRole } from "@/features/members/types";
+import LoadingPage from "@/app/loading";
 
 interface EditWorkSpaceFormProps {
   onCancel?: () => void;
@@ -53,6 +58,18 @@ export const EditWorkSpaceForm = ({
     "This will invalidate current invite link",
     "destructive"
   );
+
+  const workspaceId = useWorkspaceIds();
+  const { data: membersData, isLoading: MemberLoading } = useGetMembers({
+    workspaceId,
+  });
+  const { data: user, isLoading: CurrnetLoading } = useCurrent();
+
+  const isLoading = MemberLoading || CurrnetLoading;
+
+  const isAdmin =
+    membersData?.documents.find((doc) => doc.userId === user?.$id)?.role ===
+    MemberRole.ADMIN;
 
   const handelDelete = async () => {
     const ok = await confirmDelete();
@@ -116,6 +133,14 @@ export const EditWorkSpaceForm = ({
       .then(() => toast.success("Copied to clipbaord"));
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        <LoadingPage />
+      </div>
+    );
+  }
+
   return (
     <div className=" flex flex-col gap-y-4">
       <DeleteDialouge />
@@ -157,7 +182,11 @@ export const EditWorkSpaceForm = ({
                     <FormItem>
                       <FormLabel>Workspace Name</FormLabel>
                       <FormControl>
-                        <Input {...field} placeholder="Enter workspace name" />
+                        <Input
+                          {...field}
+                          placeholder="Enter workspace name"
+                          disabled={!isAdmin}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -200,7 +229,7 @@ export const EditWorkSpaceForm = ({
                             accept=".png, .jpg, .jpeg, .svg"
                             ref={inputRef}
                             onChange={handelImageChange}
-                            disabled={isPending}
+                            disabled={isPending || !isAdmin}
                           />
                           <Button
                             type="button"
@@ -231,7 +260,11 @@ export const EditWorkSpaceForm = ({
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" size="lg" disabled={isPending}>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    disabled={isPending || !isAdmin}
+                  >
                     Save Changes
                   </Button>
                 </div>
@@ -265,7 +298,7 @@ export const EditWorkSpaceForm = ({
               size="sm"
               variant="destructive"
               type="button"
-              disabled={isPending || isResetingInviteCode}
+              disabled={isPending || isResetingInviteCode || !isAdmin}
               onClick={handelResetInviteCode}
             >
               Reset invite Link
@@ -287,7 +320,7 @@ export const EditWorkSpaceForm = ({
               size="sm"
               variant="destructive"
               type="button"
-              disabled={isPending || isDeletingWorkspace}
+              disabled={isPending || isDeletingWorkspace || !isAdmin}
               onClick={handelDelete}
             >
               Delete Workspace
